@@ -1,4 +1,4 @@
-from flask import Fl, render_template
+from flask import Flask, render_template
 
 app = Flask(__name__)
 
@@ -8,8 +8,6 @@ app = Flask(__name__)
   
 @app.route('/api/v1/<station>/<date>')
   def about(station, date):
-    
-    
     return {
       "station": station,
       "date": date,
