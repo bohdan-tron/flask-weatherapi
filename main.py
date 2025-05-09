@@ -33,14 +33,19 @@ def word(word):
       data = r.json()
       
       # Extract definition
-      definition = ''
+      definition = []
       if data and len(data) > 0:
+        
         for meaning in data[0].get("meanings", []):
-          for definition_item in meaning.get("definitions", []):
-            definition_text = definition_item.get("definition", "")
+          
+          for index, definition_item in enumerate(meaning.get("definitions", [])):
             
-            definition = definition_text
-
+            definition_text = definition_item.get("definition", "")
+            definition_text = f"{index + 1}. {definition_text};"
+            definition.append( definition_text + '\n')
+            
+      definition = " ".join(definition)
+      
   except Exception as e:
     return {
       "word": word,
