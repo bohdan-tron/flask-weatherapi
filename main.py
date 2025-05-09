@@ -1,19 +1,26 @@
 from flask import Flask, render_template
 import requests
+import pandas as pd
+
 
 app = Flask(__name__)
 
 @app.route('/')
 def home():
   return render_template('home.html')
+
   
 @app.route('/api/v1/<station>/<date>')
 def api(station, date):
+  filename = f"weather-data-small/TG_STAID{station:>06}.txt"
+  df = pd.read_csv(filename, skiprows=20, parse_dates=["    DATE"])
+  temperature = df.loc[df["    DATE"] == date]['   TG'].squeeze() / 10
   return {
     "station": station,
     "date": date,
     "temperature": temperature,
   }
+
     
 @app.route('/api/v0/<word>')
 def word(word):
